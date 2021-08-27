@@ -2,4 +2,5 @@
 Api Rest
 
 
-Creacion de Citas / Doctores / Pacientes ---- DONE. 
+Creacion de Citas / Doctores / Pacientes ---- DONE.
+Validaciones --- Progress..
