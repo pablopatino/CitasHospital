@@ -1,6 +1,6 @@
 # CitasHospital
-Api Rest
+Api Rest para creacion de citas
 
-
-Creacion de Citas / Doctores / Pacientes ---- DONE.
-Validaciones --- Progress..
+###Tareas
+-Creacion de Citas / Doctores / Pacientes ---- DONE.
+-Validaciones --- Progress..
