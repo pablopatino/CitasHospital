@@ -1,6 +1,8 @@
 package com.hospitalCitas.hospitalCitas.infrastructura.controlador;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +26,18 @@ public class ControladorDoctores {
 	}
 	
 	@PostMapping("/guardar")
-	public Doctores guardarDoctores(@RequestBody Doctores doctor) {
-		return this.servicioAplicacionDoctor.guardarDoctores(doctor);
+	public ResponseEntity<?> guardarDoctores(@RequestBody Doctores doctor) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.servicioAplicacionDoctor.guardarDoctores(doctor));
 	}
 	
 	@GetMapping("/buscar/{id}")
-	public Doctores buscarPorId(@PathVariable Long id) {
+	public Doctores getDoctorPorId(@PathVariable Long id) {
 		return this.servicioAplicacionDoctor.getDoctores(id);
+	}
+	
+	@GetMapping("buscar/citas/{id}")
+	public ResponseEntity<?> getCitasDelDoctor(@PathVariable String id){
+		return ResponseEntity.status(HttpStatus.OK).body(this.servicioAplicacionDoctor.getCitasDelDoctor(id));
 	}
 	
 }

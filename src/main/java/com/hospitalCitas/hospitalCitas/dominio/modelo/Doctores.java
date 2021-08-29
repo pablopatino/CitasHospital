@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import static com.hospitalCitas.hospitalCitas.dominio.modelo.ValidarCampos.validarCampo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.List;
 @Entity
 @Table(name = "doctores")
 public class Doctores {
-
-	private static final String VALOR_REQUERIDO = "VALOR REQUERIDO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +32,7 @@ public class Doctores {
 	}
 
 	public Doctores(String idDoctor, String nombreCompleto, int especialidad, List<Cita> citas, boolean activo) {
-		
-		validarCampo(idDoctor, VALOR_REQUERIDO);
-		validarCampo(nombreCompleto, VALOR_REQUERIDO);
-		
+				
 		this.idDoctor = idDoctor;
 		this.nombreCompleto = nombreCompleto;
 		this.especialidad = especialidad;

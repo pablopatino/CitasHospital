@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "pacientes")
 public class Paciente implements Serializable {
 
+
 	@Id
 	private String identificacionPaciente;
 	private String nombrePaciente;
@@ -28,10 +29,11 @@ public class Paciente implements Serializable {
 	}
 
 	public Paciente(String identificacionPaciente, String nombrePaciente, int telefono, List<Cita> citas) {
+
 		this.identificacionPaciente = identificacionPaciente;
 		this.nombrePaciente = nombrePaciente;
 		this.telefono = telefono;
-		this.citas = citas;
+		this.citas =  new ArrayList<>();
 	}
 
 	public String getIdentificacionPaciente() {

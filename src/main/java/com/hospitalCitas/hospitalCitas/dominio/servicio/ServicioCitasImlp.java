@@ -11,6 +11,7 @@ import com.hospitalCitas.hospitalCitas.dominio.modelo.Paciente;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioCitas;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioDoctores;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioPaciente;
+import com.hospitalCitas.hospitalCitas.dominio.servicio.validaciones.ValidarCampos;
 
 
 @Service
@@ -22,6 +23,8 @@ public class ServicioCitasImlp implements ServicioCitas {
 	
 	@Autowired
 	private CustomMapper customMapper;
+	@Autowired
+	private ValidarCampos validarCampos;
 
 	@Autowired
 	public ServicioCitasImlp(RepositorioCitas repositorioCitas, RepositorioDoctores repositorioDoctores,
@@ -33,7 +36,7 @@ public class ServicioCitasImlp implements ServicioCitas {
 
 	@Override
 	public CitaCompletaDTO guardarCita(Cita cita) {
-		
+		validarCampos.validarCita(cita);
 
 		Paciente paciente = this.repositorioPaciente.buscarPacientePorIdentificacion(cita.getIdentificacionUsuario());
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(cita.getNombreDelDoctor());
@@ -43,7 +46,7 @@ public class ServicioCitasImlp implements ServicioCitas {
 
 
 		this.repositorioCitas.save(cita);
-		
+
 		return customMapper.EntityToDto(paciente, cita, doctor);
 	}
 	

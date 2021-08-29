@@ -5,17 +5,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import static com.hospitalCitas.hospitalCitas.dominio.modelo.ValidarCampos.validarCampo;
 
 @Entity
 @Table(name = "citas")
 public class Cita {
 
-	private static final String VALOR_REQUERIDO = "VALOR REQUERIDO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +34,6 @@ public class Cita {
 
 	public Cita(String identificacionCita, String motivoCita, String observaciones, String fechaCita,
 			String identificacionUsuario, String nombreDelDoctor, Paciente pacientes, Doctores doctor) {
-
-		validarCampo(identificacionCita, VALOR_REQUERIDO);
-		validarCampo(motivoCita, VALOR_REQUERIDO);
-		validarCampo(observaciones, VALOR_REQUERIDO);
-		validarCampo(fechaCita, VALOR_REQUERIDO);
 
 		this.identificacionCita = identificacionCita;
 		this.motivoCita = motivoCita;

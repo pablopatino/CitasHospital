@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitaCompletaDTO;
+import com.hospitalCitas.hospitalCitas.dominio.dto.CitasDoctorDTO;
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitasPacientesDTO;
 import com.hospitalCitas.hospitalCitas.dominio.dto.DoctorDTO;
 import com.hospitalCitas.hospitalCitas.dominio.dto.PacienteDTO;
@@ -42,6 +43,17 @@ public class CustomMapper {
 		return pacienteDTO;
 	}
 	
+	public DoctorDTO EntityToDTO(Doctores doctor) {
+		
+		DoctorDTO doctorDTO = modelMapper().map(doctor, DoctorDTO.class);	
+		
+		doctorDTO.setEspecialidad(doctor.getEspecialidad());
+		doctorDTO.setNombreCompleto(doctor.getNombreCompleto());
+		
+		return doctorDTO;
+		
+	}
+	
 	
 	public CitaCompletaDTO EntityToDto(Paciente paciente, Cita cita, Doctores doctores) {
 		
@@ -75,27 +87,20 @@ public class CustomMapper {
 		
 	}
 	
-//	public CitaCompletaDTO guardarDTO(Paciente paciente, Doctores doctor, Cita cita) {
-//		CitaCompletaDTO citaCompletaDTO = new CitaCompletaDTO();
-//		citaCompletaDTO.setIdentificacionPaciente(paciente.getIdentificacionPaciente());
-//		citaCompletaDTO.setNombreDelPaciente(paciente.getNombrePaciente());
-//		citaCompletaDTO.setTelefono(paciente.getTelefono());
-//		
-//		DoctorDTO doctorDTO = new DoctorDTO();
-//		doctorDTO.setEspecialidad(doctor.getEspecialidad());
-//		doctorDTO.setNombreCompleto(doctor.getNombreCompleto());
-//		
-//		
-//		citaCompletaDTO.setDoctorDTO(doctorDTO);
-//		citaCompletaDTO.setPacienteDTO(pacienteDTO);
-//		citaCompletaDTO.setFechaCita(cita.getFechaCita());
-//		citaCompletaDTO.setIdentificacionCita(cita.getIdentificacionCita());
-//		citaCompletaDTO.setMotivoCita(cita.getMotivoCita());
-//		citaCompletaDTO.setObservaciones(cita.getObservaciones());
-//		
-//		return citaCompletaDTO;
-//		
-//	}
+	public CitasDoctorDTO EntityToDto(Cita cita, Paciente paciente) {
+		
+		CitasDoctorDTO citasDoctorDTO = modelMapper().map(cita, CitasDoctorDTO.class);
+		
+		citasDoctorDTO.setNombrePaciente(paciente.getNombrePaciente());
+		citasDoctorDTO.setIdentificacionPaciente(paciente.getIdentificacionPaciente());
+		citasDoctorDTO.setTelefonoPaciente(paciente.getTelefono());
+		
+		
+		return citasDoctorDTO;
+		
+	}
+	
+
 	
 	
 	

@@ -3,6 +3,8 @@ package com.hospitalCitas.hospitalCitas.dominio.servicio;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,10 @@ import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
 import com.hospitalCitas.hospitalCitas.dominio.modelo.Paciente;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioCitas;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioPaciente;
+import com.hospitalCitas.hospitalCitas.dominio.servicio.validaciones.ValidarCampos;
 
 @Service
+@Transactional
 public class ServicioPacienteimlp implements ServicioPaciente {
 
 	private static final String USUARIO_EXISTE = "Usuario ya esta registrado";
@@ -27,6 +31,8 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 
 	@Autowired
 	private CustomMapper customMapper;
+	@Autowired
+	private ValidarCampos validarCampos;
 
 	@Autowired
 	public ServicioPacienteimlp(RepositorioPaciente repositorioPaciente, RepositorioCitas repositorioCitas) {
@@ -34,11 +40,14 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		this.repositorioCitas = repositorioCitas;
 	}
 
+	//----------------------------------------------------------------------------------------------------------------------------//
+
 	@Override
 	public PacienteDTO guardarPaciente(Paciente paciente) {
+		validarCampos.validarPaciente(paciente);
 		verificarPacienteNoRepetido(paciente.getIdentificacionPaciente());
-		 this.repositorioPaciente.save(paciente);
-		 return customMapper.EntityToMap(paciente);
+		this.repositorioPaciente.save(paciente);
+		return customMapper.EntityToMap(paciente);
 	}
 
 	@Override
@@ -53,6 +62,8 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		validarCitas(id);
 		return convertirDeEntityaDTO(id);
 	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------//
 
 	private void verificarPacienteNoRepetido(String identificacionPaciente) {
 		Paciente paciente = buscarPacientePorIdentificacion(identificacionPaciente);
@@ -79,20 +90,20 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		return citasDTO;
 
 	}
-	
+
 	private void verificarUsuarioExiste(String id) {
 		Paciente paciente = buscarPacientePorIdentificacion(id);
 		if (paciente == null) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
 	}
-	
+
 	private void validarCitas(String id) {
 		List<Cita> citas = this.repositorioCitas.todasLasCitas(id);
 		if (citas.isEmpty()) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
-		
+
 	}
 
 }

@@ -1,8 +1,12 @@
 package com.hospitalCitas.hospitalCitas.aplicacion.servicio;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hospitalCitas.hospitalCitas.dominio.dto.CitasDoctorDTO;
+import com.hospitalCitas.hospitalCitas.dominio.dto.DoctorDTO;
 import com.hospitalCitas.hospitalCitas.dominio.modelo.Doctores;
 import com.hospitalCitas.hospitalCitas.dominio.servicio.ServicioDoctores;
 
@@ -16,12 +20,16 @@ public class ServicioAplicacionDoctor {
 		this.servicioDoctores = servicioDoctores;
 	}
 	
-	public Doctores guardarDoctores(Doctores doctor) {
+	public DoctorDTO guardarDoctores(Doctores doctor) {
 		return this.servicioDoctores.guardarDoctores(doctor);
 	}
 	
 	public Doctores getDoctores(Long id) {
 		return this.servicioDoctores.obtenerDoctorPorId(id);
+	}
+	
+	public List<CitasDoctorDTO> getCitasDelDoctor(String id){
+		return this.servicioDoctores.getCitasDelDoctor(id);
 	}
 	
 	

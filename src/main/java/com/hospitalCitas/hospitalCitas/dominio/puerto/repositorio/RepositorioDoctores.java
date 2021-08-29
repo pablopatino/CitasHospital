@@ -10,4 +10,7 @@ public interface RepositorioDoctores extends CrudRepository<Doctores,Long> {
 	
 	@Query("SELECT d FROM Doctores d WHERE d.nombreCompleto = :nombreCompleto")
 	public Doctores buscarDoctorPorNombreCompleto(String nombreCompleto);
+	
+	@Query("SELECT d FROM Doctores d WHERE d.idDoctor = :idDoctor")
+	public Doctores buscarDoctorPorIdentificacion(String idDoctor);
 }
