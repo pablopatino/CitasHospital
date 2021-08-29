@@ -45,8 +45,12 @@ public class ValidarCampos {
 		}
 	}
 	
+	private String quitarEspaciosEnBlanco(String str) {
+		return str.replaceAll("\\s+", "");
+	}
+	
 	public void validarPaciente(Paciente paciente) {
-		String identificador = paciente.getIdentificacionPaciente().replaceAll("\\s+", "");
+		String identificador = quitarEspaciosEnBlanco(paciente.getIdentificacionPaciente());
 		validarCampo(identificador);
 		validarCampo(paciente.getNombrePaciente());
 		validarTelefono(paciente.getTelefono());
@@ -54,7 +58,7 @@ public class ValidarCampos {
 	}
 	
 	public void validarDoctor(Doctores doctor) {
-		String identificador = doctor.getIdDoctor().replaceAll("\\s+", "");
+		String identificador = quitarEspaciosEnBlanco(doctor.getIdDoctor());
 		validarCampo(identificador);
 		validarCampo(doctor.getNombreCompleto());
 		validarEspecialidadDoctor(doctor.getEspecialidad());
@@ -63,12 +67,12 @@ public class ValidarCampos {
 	}
 	
 	public void validarCita(Cita cita) {
-		String identificador = cita.getIdentificacionCita().replaceAll("\\s+", "");
+		String identificador = quitarEspaciosEnBlanco(cita.getIdentificacionCita());
 		validarCampo(identificador);
 		validarCampo(cita.getMotivoCita());
 		validarCampo(cita.getFechaCita());
-		validarCampo(cita.getIdentificacionUsuario());
-		validarCampo(cita.getNombreDelDoctor());
+//		validarCampo(cita.getIdentificacionUsuario());
+//		validarCampo(cita.getNombreDelDoctor());
 		cita.setIdentificacionCita(identificador);
 	}
 

@@ -5,6 +5,6 @@ import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
 
 public interface ServicioCitas {
 
-	public CitaCompletaDTO guardarCita(Cita cita);
+	public CitaCompletaDTO guardarCita(Cita cita, String idPaciente);
 	
 }

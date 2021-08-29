@@ -32,26 +32,21 @@ public class CustomMapper {
 		
 	}
 	
-	public PacienteDTO EntityToMap(Paciente paciente) {
+	public PacienteDTO EntityToMap(Paciente paciente, int citasTotales) {
 		
 		PacienteDTO pacienteDTO = modelMapper().map(paciente, PacienteDTO.class);	
 				
-		pacienteDTO.setIdentificacionPaciente(paciente.getIdentificacionPaciente());
-		pacienteDTO.setNombrePaciente(paciente.getNombrePaciente());
-		pacienteDTO.setTelefono(paciente.getTelefono());
+		pacienteDTO.setCitasTotales(citasTotales);
 		
 		return pacienteDTO;
 	}
+	
 	
 	public DoctorDTO EntityToDTO(Doctores doctor) {
 		
 		DoctorDTO doctorDTO = modelMapper().map(doctor, DoctorDTO.class);	
 		
-		doctorDTO.setEspecialidad(doctor.getEspecialidad());
-		doctorDTO.setNombreCompleto(doctor.getNombreCompleto());
-		
 		return doctorDTO;
-		
 	}
 	
 	

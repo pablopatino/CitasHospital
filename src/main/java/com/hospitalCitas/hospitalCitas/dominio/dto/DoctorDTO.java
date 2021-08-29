@@ -4,6 +4,7 @@ public class DoctorDTO {
 
 	private String nombreCompleto;
 	private int especialidad;
+	private boolean activo;
 	
 	
 	public String getNombreCompleto() {
@@ -21,4 +22,14 @@ public class DoctorDTO {
 	public void setEspecialidad(int especialidad) {
 		this.especialidad = especialidad;
 	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	
 }

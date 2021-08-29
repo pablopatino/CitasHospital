@@ -35,19 +35,18 @@ public class ServicioCitasImlp implements ServicioCitas {
 	}
 
 	@Override
-	public CitaCompletaDTO guardarCita(Cita cita) {
+	public CitaCompletaDTO guardarCita(Cita cita, String idPaciente) {
 		validarCampos.validarCita(cita);
-
-		Paciente paciente = this.repositorioPaciente.buscarPacientePorIdentificacion(cita.getIdentificacionUsuario());
-		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(cita.getNombreDelDoctor());
+		Doctores docs = this.repositorioDoctores.trearDosctorRandom();
+		Paciente paciente = this.repositorioPaciente.buscarPacientePorIdentificacion(idPaciente);
 		
-		cita.setDoctor(doctor);
+		cita.setDoctor(docs);
 		cita.setPacientes(paciente);
 
 
 		this.repositorioCitas.save(cita);
 
-		return customMapper.EntityToDto(paciente, cita, doctor);
+		return customMapper.EntityToDto(paciente, cita, docs);
 	}
 	
 

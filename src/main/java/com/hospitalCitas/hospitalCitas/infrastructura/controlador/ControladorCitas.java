@@ -1,6 +1,7 @@
 package com.hospitalCitas.hospitalCitas.infrastructura.controlador;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,9 @@ public class ControladorCitas {
 		this.servicioAplicativoCita = servicioAplicativoCita;
 	}
 
-	@PostMapping("/guardar")
-	public CitaCompletaDTO guardarCita(@RequestBody Cita cita) {
-		return this.servicioAplicativoCita.guardarCita(cita);
+	@PostMapping("/guardar/{idPaciente}")
+	public CitaCompletaDTO guardarCita(@RequestBody Cita cita, @PathVariable String idPaciente) {
+		return this.servicioAplicativoCita.guardarCita(cita, idPaciente);
 	}
 
 }

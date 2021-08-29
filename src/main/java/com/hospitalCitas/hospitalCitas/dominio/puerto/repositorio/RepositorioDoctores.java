@@ -13,4 +13,7 @@ public interface RepositorioDoctores extends CrudRepository<Doctores,Long> {
 	
 	@Query("SELECT d FROM Doctores d WHERE d.idDoctor = :idDoctor")
 	public Doctores buscarDoctorPorIdentificacion(String idDoctor);
+	
+	@Query(value = "SELECT * FROM doctores ORDER BY RAND() LIMIT 1", nativeQuery = true)
+	public Doctores trearDosctorRandom();
 }

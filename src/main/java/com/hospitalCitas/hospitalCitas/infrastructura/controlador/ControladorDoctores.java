@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hospitalCitas.hospitalCitas.aplicacion.servicio.ServicioAplicacionDoctor;
@@ -26,18 +27,18 @@ public class ControladorDoctores {
 	}
 	
 	@PostMapping("/guardar")
-	public ResponseEntity<?> guardarDoctores(@RequestBody Doctores doctor) {
+	public ResponseEntity<?> guardarDoctor(@RequestBody Doctores doctor) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.servicioAplicacionDoctor.guardarDoctores(doctor));
 	}
 	
 	@GetMapping("/buscar/{id}")
-	public Doctores getDoctorPorId(@PathVariable Long id) {
-		return this.servicioAplicacionDoctor.getDoctores(id);
+	public ResponseEntity<?> getDoctorPorId(@PathVariable String id) {
+		return ResponseEntity.status(HttpStatus.OK).body(this.servicioAplicacionDoctor.getDoctores(id));
 	}
 	
-	@GetMapping("buscar/citas/{id}")
-	public ResponseEntity<?> getCitasDelDoctor(@PathVariable String id){
-		return ResponseEntity.status(HttpStatus.OK).body(this.servicioAplicacionDoctor.getCitasDelDoctor(id));
+	@GetMapping("/getall/{nombre}")
+	public ResponseEntity<?> getCitasDelDoctor(@PathVariable String nombre){
+		return ResponseEntity.status(HttpStatus.OK).body(this.servicioAplicacionDoctor.getCitasDelDoctor(nombre));
 	}
 	
 }

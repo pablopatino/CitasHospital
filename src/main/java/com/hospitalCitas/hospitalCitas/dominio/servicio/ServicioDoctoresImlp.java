@@ -49,27 +49,31 @@ public class ServicioDoctoresImlp implements ServicioDoctores {
 	@Override
 	public DoctorDTO guardarDoctores(Doctores doctor) {
 		validarCampos.validarDoctor(doctor);
-		validacionDoctores(doctor.getIdDoctor());
+		validarDoctorRepetido(doctor.getIdDoctor());
 		this.repositorioDoctores.save(doctor);
 		return mapper.EntityToDTO(doctor);
 
 	}
 
 	@Override
-	public Doctores obtenerDoctorPorId(Long idDoctor) {
-		return this.repositorioDoctores.findById(idDoctor).orElse(null);
+	public DoctorDTO obtenerDoctorPorId(String idDoctor) {
+		validarIdentificadorDoctor(idDoctor);
+		validarDoctorPorId(idDoctor);
+		 Doctores doctor =  this.repositorioDoctores.buscarDoctorPorIdentificacion(idDoctor);
+		 return this.mapper.EntityToDTO(doctor);
 	}
 
 	@Override
-	public List<CitasDoctorDTO> getCitasDelDoctor(String idDoctor) {
-		validarIdentificadorDoctor(idDoctor);
-		return citasDelDoctor(idDoctor);
+	public List<CitasDoctorDTO> getCitasDelDoctor(String nombreDelDoctor) {
+		validarDoctorExistePorNombre(nombreDelDoctor);
+		//TODO QUITAR LOS ESPACIOS EN BLANCO DEL NOMBRE PARA PODER BUSCAR
+		return citasDelDoctor(nombreDelDoctor);
 		
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	
-	private void validacionDoctores(String idDoctor) {
+	private void validarDoctorRepetido(String idDoctor) {
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorIdentificacion(idDoctor);
 		if (doctor != null) {
 			throw new ExcepcionRepetido(REPETIDO);
@@ -82,12 +86,15 @@ public class ServicioDoctoresImlp implements ServicioDoctores {
 		}
 	}
 
-	private List<CitasDoctorDTO> citasDelDoctor(String idDoctor) {
+	private List<CitasDoctorDTO> citasDelDoctor(String nombreDoctor) {
 		List<CitasDoctorDTO> citasDoctor = new ArrayList<>();	
-		List<Cita> citas = this.repositorioCitas.todasLasCitas(idDoctor);
+		
+		validarDoctorExistePorNombre(nombreDoctor);
+		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(nombreDoctor);
+		List<Cita> citas = this.repositorioCitas.todasLasCitasDelDoctor(doctor.getId());
 		
 		citas.stream().forEach(cita -> {
-			Paciente paciente = this.repositorioPaciente.findById(cita.getIdentificacionUsuario()).orElse(null);
+			Paciente paciente = this.repositorioPaciente.findById(cita.getPacientes().getIdentificacionPaciente()).orElse(null);
 			validarUsuario(paciente);
 			CitasDoctorDTO citaDoctorDTO = new CitasDoctorDTO();
 			citaDoctorDTO = this.mapper.EntityToDto(cita, paciente);
@@ -99,6 +106,19 @@ public class ServicioDoctoresImlp implements ServicioDoctores {
 	
 	private void validarUsuario(Paciente paciente) {
 		if (paciente == null) {
+			throw new ExcepcionNotFound(NOT_FOUND);
+		}
+	}
+	
+	private void validarDoctorExistePorNombre(String nombre) {
+		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(nombre);
+		if (doctor == null) {
+			throw new ExcepcionNotFound(NOT_FOUND);
+		}
+	}
+	private void validarDoctorPorId(String id) {
+		Doctores doctor = this.repositorioDoctores.buscarDoctorPorIdentificacion(id);
+		if (doctor == null) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
 	}

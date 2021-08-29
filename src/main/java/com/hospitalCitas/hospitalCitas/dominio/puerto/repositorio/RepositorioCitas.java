@@ -9,7 +9,10 @@ import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
 
 public interface RepositorioCitas extends CrudRepository<Cita, Long> {
 	
-	@Query( value = "SELECT * FROM CITAS WHERE IDENTIFICACION_USUARIO = :identificacionUsuario", nativeQuery = true)
-	public List<Cita> todasLasCitas(String identificacionUsuario);
+	@Query( value = "SELECT * FROM CITAS WHERE PACIENTES_IDENTIFICACION_PACIENTE = :IdPaciente", nativeQuery = true)
+	public List<Cita> todasLasCitas(String IdPaciente);
+	
+	@Query( value = "SELECT * FROM CITAS WHERE DOCTOR_ID = :idDoctor", nativeQuery = true)
+	public List<Cita> todasLasCitasDelDoctor(Long idDoctor);
 
 }

@@ -47,13 +47,15 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		validarCampos.validarPaciente(paciente);
 		verificarPacienteNoRepetido(paciente.getIdentificacionPaciente());
 		this.repositorioPaciente.save(paciente);
-		return customMapper.EntityToMap(paciente);
+		return customMapper.EntityToMap(paciente,0);
 	}
 
 	@Override
-	public Paciente busacrPorId(String id) {
+	public PacienteDTO busacrPorId(String id) {
 		verificarUsuarioExiste(id);
-		return this.repositorioPaciente.findById(id).orElse(null);
+		int citasTotales = this.repositorioPaciente.citasTotalesDelPaciente(id);
+		Paciente paciente = this.repositorioPaciente.findById(id).orElse(null);
+		return customMapper.EntityToMap(paciente, citasTotales);
 	}
 
 	@Override
@@ -61,6 +63,21 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		verificarUsuarioExiste(id);
 		validarCitas(id);
 		return convertirDeEntityaDTO(id);
+	}
+	
+	@Override
+	public void modificarPaciente(Paciente paciente, String id) {
+		verificarUsuarioExiste(id);
+		Paciente pacienteBd = buscarPacientePorIdentificacion(id);
+		pacienteBd.setTelefono(paciente.getTelefono());
+		this.repositorioPaciente.save(pacienteBd);
+	}
+	
+	@Override
+	public void eliminarPaciente(String id) {
+		verificarUsuarioExiste(id);
+		this.repositorioPaciente.deleteById(id);
+		
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------//
@@ -79,11 +96,12 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 
 	private List<CitasPacientesDTO> convertirDeEntityaDTO(String id) {
 		List<CitasPacientesDTO> citasDTO = new ArrayList<>();
+		
 		List<Cita> citas = this.repositorioCitas.todasLasCitas(id);
 
 		citas.stream().forEach(cita -> {
 			CitasPacientesDTO citaDto = new CitasPacientesDTO();
-			citaDto = this.customMapper.EntitToDTO(cita, cita.getNombreDelDoctor());
+			citaDto = this.customMapper.EntitToDTO(cita,cita.getDoctor().getNombreCompleto());
 			citasDTO.add(citaDto);
 		});
 

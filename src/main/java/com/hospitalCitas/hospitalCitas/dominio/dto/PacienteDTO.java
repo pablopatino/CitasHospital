@@ -5,6 +5,7 @@ public class PacienteDTO {
 	private String identificacionPaciente;
 	private String nombrePaciente;
 	private int telefono;
+	private int citasTotales;
 
 	public String getIdentificacionPaciente() {
 		return identificacionPaciente;
@@ -29,5 +30,15 @@ public class PacienteDTO {
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
+
+	public int getCitasTotales() {
+		return citasTotales;
+	}
+
+	public void setCitasTotales(int citasTotales) {
+		this.citasTotales = citasTotales;
+	}
+	
+	
 
 }

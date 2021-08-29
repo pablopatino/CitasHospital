@@ -20,8 +20,10 @@ public class Cita {
 	private String motivoCita;
 	private String observaciones;
 	private String fechaCita;
-	private String identificacionUsuario;
-	private String nombreDelDoctor;
+//	private String identificacionUsuario;
+//	private String nombreDelDoctor;
+	
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	private Doctores doctor;
 	@OneToOne(fetch = FetchType.LAZY)
@@ -32,15 +34,16 @@ public class Cita {
 
 	}
 
+	//String identificacionUsuario, String nombreDelDoctor,
 	public Cita(String identificacionCita, String motivoCita, String observaciones, String fechaCita,
-			String identificacionUsuario, String nombreDelDoctor, Paciente pacientes, Doctores doctor) {
+			 Paciente pacientes, Doctores doctor) {
 
 		this.identificacionCita = identificacionCita;
 		this.motivoCita = motivoCita;
 		this.observaciones = observaciones;
 		this.fechaCita = fechaCita;
-		this.identificacionUsuario = identificacionUsuario;
-		this.nombreDelDoctor = nombreDelDoctor;
+//		this.identificacionUsuario = identificacionUsuario;
+//		this.nombreDelDoctor = nombreDelDoctor;
 		this.pacientes = pacientes;
 		this.doctor = doctor;
 	}
@@ -93,20 +96,20 @@ public class Cita {
 		this.doctor = doctor;
 	}
 
-	public String getIdentificacionUsuario() {
-		return identificacionUsuario;
-	}
-
-	public void setIdentificacionUsuario(String identificacionUsuario) {
-		this.identificacionUsuario = identificacionUsuario;
-	}
-
-	public String getNombreDelDoctor() {
-		return nombreDelDoctor;
-	}
-
-	public void setNombreDelDoctor(String nombreDelDoctor) {
-		this.nombreDelDoctor = nombreDelDoctor;
-	}
+//	public String getIdentificacionUsuario() {
+//		return identificacionUsuario;
+//	}
+//
+//	public void setIdentificacionUsuario(String identificacionUsuario) {
+//		this.identificacionUsuario = identificacionUsuario;
+//	}
+//
+//	public String getNombreDelDoctor() {
+//		return nombreDelDoctor;
+//	}
+//
+//	public void setNombreDelDoctor(String nombreDelDoctor) {
+//		this.nombreDelDoctor = nombreDelDoctor;
+//	}
 
 }

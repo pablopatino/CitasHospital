@@ -9,7 +9,7 @@ import com.hospitalCitas.hospitalCitas.dominio.modelo.Doctores;
 public interface ServicioDoctores {
 
 	public DoctorDTO guardarDoctores(Doctores doctor);
-	public Doctores obtenerDoctorPorId(Long idDoctor);
+	public DoctorDTO obtenerDoctorPorId(String idDoctor);
 	
 	public List<CitasDoctorDTO> getCitasDelDoctor(String idDoctor);
 }

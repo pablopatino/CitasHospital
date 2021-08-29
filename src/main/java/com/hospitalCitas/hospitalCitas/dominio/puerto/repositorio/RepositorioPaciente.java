@@ -15,4 +15,11 @@ public interface RepositorioPaciente extends CrudRepository<Paciente, String> {
 
 	@Query("SELECT p.citas FROM Paciente p WHERE p.identificacionPaciente = :identificacionPaciente")
 	public List<Cita> citasDelUsuario(String identificacionPaciente);
+	
+	@Query( value = "SELECT * FROM CITAS WHERE IDENTIFICACION_USUARIO = :identificacionUsuario", nativeQuery = true)
+	public List<Cita> todasLasCitas(String identificacionUsuario);
+
+	@Query( value = "SELECT COUNT(PACIENTES_IDENTIFICACION_PACIENTE) FROM CITAS WHERE PACIENTES_IDENTIFICACION_PACIENTE = :identificacionUsuario ", nativeQuery = true)
+	public int citasTotalesDelPaciente(String identificacionUsuario);
+	
 }

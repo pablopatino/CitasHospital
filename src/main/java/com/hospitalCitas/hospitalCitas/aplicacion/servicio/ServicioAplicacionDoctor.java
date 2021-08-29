@@ -24,7 +24,7 @@ public class ServicioAplicacionDoctor {
 		return this.servicioDoctores.guardarDoctores(doctor);
 	}
 	
-	public Doctores getDoctores(Long id) {
+	public DoctorDTO getDoctores(String id) {
 		return this.servicioDoctores.obtenerDoctorPorId(id);
 	}
 	

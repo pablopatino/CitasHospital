@@ -18,8 +18,8 @@ public class ServicioAplicativoCita {
 	}
 	
 	
-	public CitaCompletaDTO guardarCita(Cita cita) {
-		return this.servicioCitas.guardarCita(cita);
+	public CitaCompletaDTO guardarCita(Cita cita, String nombre) {
+		return this.servicioCitas.guardarCita(cita, nombre);
 	}
 	
 	
