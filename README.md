@@ -1,7 +1,7 @@
 # CitasHospital
 Api Rest para creacion de citas
 
-##Instrucciones de uso (Todo lo explicado a continuacion esta configurado en local, con Bd de h2)
+## Instrucciones de uso (Todo lo explicado a continuacion esta configurado en local, con Bd de h2)
 ***
 
 Para crear un usuario, se deben enviar los suguientes parametros a la url
@@ -22,7 +22,7 @@ http://localhost:8080/cita/guardar/{idUsuario}
 Pd: Solo se permite una cita por dia, el doctor es asignado aleatoriamente, dependiendo de los doctores que estan activos en el sistema.
 
 ***
-##Consultar Citas
+## Consultar Citas
 
 Los usuarios pueden consultar sus citas, asi la informacion personal.
 
@@ -52,7 +52,7 @@ http://localhost:8080/doctores/buscar/idDoctor
 
 
 ***
-##Modificacion del estado del Doctor
+## Modificacion del estado del Doctor
 
 Los doctores tienen un estado, este significa que si esta activo puede recibir citas, para cambiar el estado de un doctor se utiliza:
 
@@ -62,7 +62,7 @@ Enviando un body con su identificacion
 ![image](https://user-images.githubusercontent.com/29610386/131554167-cbfa12cd-f2d6-462e-bf83-a847767aafed.png)
 
 ***
-##Eliminacion de citas.
+## Eliminacion de citas.
 
 Se puede eliminar las citas, sabiendo la identificacion de la cita
 
