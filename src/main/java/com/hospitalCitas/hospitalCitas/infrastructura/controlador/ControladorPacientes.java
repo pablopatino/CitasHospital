@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hospitalCitas.hospitalCitas.aplicacion.servicio.ServicioAplicacionPaciente;
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitasPacientesDTO;
-import com.hospitalCitas.hospitalCitas.dominio.modelo.Paciente;
+import com.hospitalCitas.hospitalCitas.dominio.dto.PacienteDTO;
+import com.hospitalCitas.hospitalCitas.dominio.modelo.respuesta.Mensaje;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -31,13 +32,13 @@ public class ControladorPacientes {
 	}
 
 	@PostMapping("/guardar")
-	public ResponseEntity<?> guardarPaciente(@RequestBody Paciente paciente) {
+	public ResponseEntity<PacienteDTO> guardarPaciente(@RequestBody PacienteDTO paciente) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(this.servicioAplicacionPaciente.guardarPaciente(paciente));
 	}
 
 	@GetMapping("/buscar/{id}")
-	public ResponseEntity<?> buscarPorId(@PathVariable String id) {
+	public ResponseEntity<PacienteDTO> buscarPorId(@PathVariable String id) {
 		return ResponseEntity.status(HttpStatus.OK).body(this.servicioAplicacionPaciente.getPaciente(id));
 	}
 
@@ -47,15 +48,17 @@ public class ControladorPacientes {
 	}
 
 	@PutMapping("/modificar/{id}")
-	public ResponseEntity<?> modifucarPaciente(@RequestBody Paciente paciente, @PathVariable String id) {
+	public ResponseEntity<Mensaje> modifucarPaciente(@RequestBody PacienteDTO paciente, @PathVariable String id) {
+		Mensaje mensaje = new Mensaje("Paciente modificado correctamente");
 		this.servicioAplicacionPaciente.modificarPaciente(paciente, id);
-		return ResponseEntity.status(HttpStatus.OK).body("Modificado Correctamente");
+		return ResponseEntity.status(HttpStatus.OK).body(mensaje);
 	}
 
 	@DeleteMapping("/eliminar/{id}")
-	public ResponseEntity<?> eliminarPaciente(@PathVariable String id) {
+	public ResponseEntity<Mensaje> eliminarPaciente(@PathVariable String id) {
+		Mensaje mensaje = new Mensaje("Eliminado Correctamente");
 		this.servicioAplicacionPaciente.eliminarPaciente(id);
-		return ResponseEntity.status(HttpStatus.OK).body("Eliminado correctamente");
+		return ResponseEntity.status(HttpStatus.OK).body(mensaje);
 	}
 
 }

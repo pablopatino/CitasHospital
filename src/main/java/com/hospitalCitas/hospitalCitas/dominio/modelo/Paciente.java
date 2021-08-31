@@ -28,7 +28,7 @@ public class Paciente implements Serializable {
 		this.citas = new ArrayList<>();
 	}
 
-	public Paciente(String identificacionPaciente, String nombrePaciente, int telefono, List<Cita> citas) {
+	public Paciente(String identificacionPaciente, String nombrePaciente, int telefono) {
 
 		this.identificacionPaciente = identificacionPaciente;
 		this.nombrePaciente = nombrePaciente;

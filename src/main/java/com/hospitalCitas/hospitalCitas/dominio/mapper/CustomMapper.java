@@ -21,18 +21,8 @@ public class CustomMapper {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
-	public DoctorDTO EntityToMap(Doctores doctores) {
-		DoctorDTO doctorDTO = modelMapper().map(doctores, DoctorDTO.class);
 		
-		doctorDTO.setNombreCompleto(doctores.getNombreCompleto());
-		doctorDTO.setEspecialidad(doctores.getEspecialidad());
-		
-		return doctorDTO;
-		
-	}
-	
-	public PacienteDTO EntityToMap(Paciente paciente, int citasTotales) {
+	public PacienteDTO pacienteToDTO(Paciente paciente, int citasTotales) {
 		
 		PacienteDTO pacienteDTO = modelMapper().map(paciente, PacienteDTO.class);	
 				
@@ -42,15 +32,12 @@ public class CustomMapper {
 	}
 	
 	
-	public DoctorDTO EntityToDTO(Doctores doctor) {
-		
-		DoctorDTO doctorDTO = modelMapper().map(doctor, DoctorDTO.class);	
-		
-		return doctorDTO;
+	public DoctorDTO doctorToDTO(Doctores doctor) {
+		return modelMapper().map(doctor, DoctorDTO.class);	
 	}
 	
 	
-	public CitaCompletaDTO EntityToDto(Paciente paciente, Cita cita, Doctores doctores) {
+	public CitaCompletaDTO citaCompletaToDTO(Paciente paciente, Cita cita, Doctores doctores) {
 		
 		CitaCompletaDTO citaCompletaDTO = modelMapper().map(cita, CitaCompletaDTO.class);
 		
@@ -59,7 +46,6 @@ public class CustomMapper {
 		citaCompletaDTO.setNombreDelPaciente(paciente.getNombrePaciente());
 		citaCompletaDTO.setTelefono(paciente.getTelefono());
 		citaCompletaDTO.setFechaCita(cita.getFechaCita());
-		citaCompletaDTO.setIdentificacionCita(cita.getIdentificacionCita());
 		citaCompletaDTO.setMotivoCita(cita.getMotivoCita());
 		citaCompletaDTO.setObservaciones(cita.getObservaciones());
 		citaCompletaDTO.setNombreDelDoctor(doctores.getNombreCompleto());
@@ -68,21 +54,18 @@ public class CustomMapper {
 		return citaCompletaDTO;
 	}
 	
-	public CitasPacientesDTO EntitToDTO(Cita cita, String nombreDoctor) {
+	public CitasPacientesDTO citasPacientesToDTO(Cita cita, String nombreDoctor) {
 		
 		CitasPacientesDTO citasDoctorDTO = modelMapper().map(cita, CitasPacientesDTO.class);
 		
-		citasDoctorDTO.setIdentificacionCita(cita.getIdentificacionCita());
-		citasDoctorDTO.setFechaCita(cita.getFechaCita());
-		citasDoctorDTO.setMotivoCita(cita.getMotivoCita());
+
 		citasDoctorDTO.setNombreDelDoctor(nombreDoctor);
-		citasDoctorDTO.setObservaciones(cita.getObservaciones());
 		
 		return citasDoctorDTO;
 		
 	}
 	
-	public CitasDoctorDTO EntityToDto(Cita cita, Paciente paciente) {
+	public CitasDoctorDTO citasDoctorToDTO(Cita cita, Paciente paciente) {
 		
 		CitasDoctorDTO citasDoctorDTO = modelMapper().map(cita, CitasDoctorDTO.class);
 		

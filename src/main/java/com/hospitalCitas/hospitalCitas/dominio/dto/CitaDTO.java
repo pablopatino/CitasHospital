@@ -2,16 +2,16 @@ package com.hospitalCitas.hospitalCitas.dominio.dto;
 
 public class CitaDTO {
 
-	private String identificacionCita;
+	private Long identificacionCita;
 	private String motivoCita;
 	private String observaciones;
 	private String fechaCita;
 
-	public String getIdentificacionCita() {
+	public Long getIdentificacionCita() {
 		return identificacionCita;
 	}
 
-	public void setIdentificacionCita(String identificacionCita) {
+	public void setIdentificacionCita(Long identificacionCita) {
 		this.identificacionCita = identificacionCita;
 	}
 

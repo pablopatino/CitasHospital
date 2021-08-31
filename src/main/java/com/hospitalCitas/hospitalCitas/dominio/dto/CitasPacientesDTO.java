@@ -6,7 +6,7 @@ public class CitasPacientesDTO {
 	private String motivoCita;
 	private String observaciones;
 	private String fechaCita;
-	private String NombreDelDoctor;
+	private String nombreDelDoctor;
 
 	public String getIdentificacionCita() {
 		return identificacionCita;
@@ -41,11 +41,12 @@ public class CitasPacientesDTO {
 	}
 
 	public String getNombreDelDoctor() {
-		return NombreDelDoctor;
+		return nombreDelDoctor;
 	}
 
 	public void setNombreDelDoctor(String nombreDelDoctor) {
-		NombreDelDoctor = nombreDelDoctor;
+		this.nombreDelDoctor = nombreDelDoctor;
 	}
 
+	
 }

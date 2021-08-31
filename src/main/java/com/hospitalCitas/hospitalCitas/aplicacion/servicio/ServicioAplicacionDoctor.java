@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitasDoctorDTO;
 import com.hospitalCitas.hospitalCitas.dominio.dto.DoctorDTO;
-import com.hospitalCitas.hospitalCitas.dominio.modelo.Doctores;
+import com.hospitalCitas.hospitalCitas.dominio.modelo.busquedas.BusquedaIndentificador;
 import com.hospitalCitas.hospitalCitas.dominio.servicio.ServicioDoctores;
+
 
 @Component
 public class ServicioAplicacionDoctor {
@@ -20,7 +21,7 @@ public class ServicioAplicacionDoctor {
 		this.servicioDoctores = servicioDoctores;
 	}
 	
-	public DoctorDTO guardarDoctores(Doctores doctor) {
+	public DoctorDTO guardarDoctores(DoctorDTO doctor) {
 		return this.servicioDoctores.guardarDoctores(doctor);
 	}
 	
@@ -32,6 +33,8 @@ public class ServicioAplicacionDoctor {
 		return this.servicioDoctores.getCitasDelDoctor(id);
 	}
 	
-	
+	public void cambiarEstadoDelDoctor(BusquedaIndentificador busquedaIndentificador) {
+		this.servicioDoctores.cambioDeEstadoDelDoctor(busquedaIndentificador);
+	}
 	
 }

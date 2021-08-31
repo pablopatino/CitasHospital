@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hospitalCitas.hospitalCitas.aplicacion.servicio.ServicioAplicativoCita;
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitaCompletaDTO;
-import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
+import com.hospitalCitas.hospitalCitas.dominio.dto.CitaDTO;
 
 @RestController
 @RequestMapping("/cita")
@@ -23,7 +23,7 @@ public class ControladorCitas {
 	}
 
 	@PostMapping("/guardar/{idPaciente}")
-	public CitaCompletaDTO guardarCita(@RequestBody Cita cita, @PathVariable String idPaciente) {
+	public CitaCompletaDTO guardarCita(@RequestBody CitaDTO cita, @PathVariable String idPaciente) {
 		return this.servicioAplicativoCita.guardarCita(cita, idPaciente);
 	}
 

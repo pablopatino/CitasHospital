@@ -15,6 +15,7 @@ import com.hospitalCitas.hospitalCitas.dominio.mapper.CustomMapper;
 import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
 import com.hospitalCitas.hospitalCitas.dominio.modelo.Doctores;
 import com.hospitalCitas.hospitalCitas.dominio.modelo.Paciente;
+import com.hospitalCitas.hospitalCitas.dominio.modelo.busquedas.BusquedaIndentificador;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioCitas;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioDoctores;
 import com.hospitalCitas.hospitalCitas.dominio.puerto.repositorio.RepositorioPaciente;
@@ -35,23 +36,27 @@ public class ServicioDoctoresImlp implements ServicioDoctores {
 	private CustomMapper mapper;
 	@Autowired
 	private ValidarCampos validarCampos;
-	
 
 	@Autowired
-	public ServicioDoctoresImlp(RepositorioDoctores repositorioDoctores, RepositorioCitas repositorioCitas, RepositorioPaciente repositorioPaciente) {
+	public ServicioDoctoresImlp(RepositorioDoctores repositorioDoctores, RepositorioCitas repositorioCitas,
+			RepositorioPaciente repositorioPaciente) {
 		this.repositorioDoctores = repositorioDoctores;
 		this.repositorioCitas = repositorioCitas;
 		this.repositorioPaciente = repositorioPaciente;
 	}
 
-	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-	
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 	@Override
-	public DoctorDTO guardarDoctores(Doctores doctor) {
+	public DoctorDTO guardarDoctores(DoctorDTO doctor) {
+
 		validarCampos.validarDoctor(doctor);
 		validarDoctorRepetido(doctor.getIdDoctor());
-		this.repositorioDoctores.save(doctor);
-		return mapper.EntityToDTO(doctor);
+		validarSiDoctoresTienenElMismoNombre(doctor.getNombreCompleto());
+		Doctores persisDoctor = new Doctores(doctor.getIdDoctor(), doctor.getNombreCompleto(), doctor.getEspecialidad(),
+				doctor.isActivo());
+		this.repositorioDoctores.save(persisDoctor);
+		return mapper.doctorToDTO(persisDoctor);
 
 	}
 
@@ -59,63 +64,83 @@ public class ServicioDoctoresImlp implements ServicioDoctores {
 	public DoctorDTO obtenerDoctorPorId(String idDoctor) {
 		validarIdentificadorDoctor(idDoctor);
 		validarDoctorPorId(idDoctor);
-		 Doctores doctor =  this.repositorioDoctores.buscarDoctorPorIdentificacion(idDoctor);
-		 return this.mapper.EntityToDTO(doctor);
+		Doctores doctor = this.repositorioDoctores.buscarDoctorPorIdentificacion(idDoctor);
+		return this.mapper.doctorToDTO(doctor);
 	}
 
 	@Override
 	public List<CitasDoctorDTO> getCitasDelDoctor(String nombreDelDoctor) {
 		validarDoctorExistePorNombre(nombreDelDoctor);
-		//TODO QUITAR LOS ESPACIOS EN BLANCO DEL NOMBRE PARA PODER BUSCAR
+
 		return citasDelDoctor(nombreDelDoctor);
-		
+
 	}
-	
-	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-	
+
+	@Override
+	public void cambioDeEstadoDelDoctor(BusquedaIndentificador busquedaIndentificador) {
+
+		Doctores doctorBD = this.repositorioDoctores
+				.buscarDoctorPorIdentificacion(busquedaIndentificador.getIdentificador());
+		doctorBD.setActivo(!doctorBD.isActivo());
+		this.repositorioDoctores.save(doctorBD);
+
+	}
+
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 	private void validarDoctorRepetido(String idDoctor) {
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorIdentificacion(idDoctor);
 		if (doctor != null) {
 			throw new ExcepcionRepetido(REPETIDO);
 		}
 	}
-	
+
 	private void validarIdentificadorDoctor(String idDoctor) {
-		if ( idDoctor == null|| idDoctor.isEmpty()) {
+		if (idDoctor == null || idDoctor.isEmpty()) {
 			throw new ExcepcionValorRequerido(VALOR_REQUERIDO);
 		}
 	}
 
 	private List<CitasDoctorDTO> citasDelDoctor(String nombreDoctor) {
-		List<CitasDoctorDTO> citasDoctor = new ArrayList<>();	
-		
+		List<CitasDoctorDTO> citasDoctor = new ArrayList<>();
+
 		validarDoctorExistePorNombre(nombreDoctor);
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(nombreDoctor);
+
 		List<Cita> citas = this.repositorioCitas.todasLasCitasDelDoctor(doctor.getId());
-		
+
 		citas.stream().forEach(cita -> {
-			Paciente paciente = this.repositorioPaciente.findById(cita.getPacientes().getIdentificacionPaciente()).orElse(null);
+			Paciente paciente = this.repositorioPaciente.findById(cita.getPacientes().getIdentificacionPaciente())
+					.orElse(null);
 			validarUsuario(paciente);
 			CitasDoctorDTO citaDoctorDTO = new CitasDoctorDTO();
-			citaDoctorDTO = this.mapper.EntityToDto(cita, paciente);
+			citaDoctorDTO = this.mapper.citasDoctorToDTO(cita, paciente);
 			citasDoctor.add(citaDoctorDTO);
 		});
-		
+
 		return citasDoctor;
 	}
-	
+
 	private void validarUsuario(Paciente paciente) {
 		if (paciente == null) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
 	}
-	
+
+	private void validarSiDoctoresTienenElMismoNombre(String nombre) {
+		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(nombre);
+		if (doctor != null) {
+			throw new ExcepcionRepetido(REPETIDO);
+		}
+	}
+
 	private void validarDoctorExistePorNombre(String nombre) {
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorNombreCompleto(nombre);
 		if (doctor == null) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
 	}
+
 	private void validarDoctorPorId(String id) {
 		Doctores doctor = this.repositorioDoctores.buscarDoctorPorIdentificacion(id);
 		if (doctor == null) {

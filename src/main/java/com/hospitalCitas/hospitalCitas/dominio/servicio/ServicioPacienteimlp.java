@@ -40,14 +40,17 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		this.repositorioCitas = repositorioCitas;
 	}
 
-	//----------------------------------------------------------------------------------------------------------------------------//
+	// ----------------------------------------------------------------------------------------------------------------------------//
 
 	@Override
-	public PacienteDTO guardarPaciente(Paciente paciente) {
+	public PacienteDTO guardarPaciente(PacienteDTO paciente) {
 		validarCampos.validarPaciente(paciente);
 		verificarPacienteNoRepetido(paciente.getIdentificacionPaciente());
-		this.repositorioPaciente.save(paciente);
-		return customMapper.EntityToMap(paciente,0);
+
+		Paciente persisPaciente = new Paciente(paciente.getIdentificacionPaciente(), paciente.getNombrePaciente(),
+				paciente.getTelefono());
+		this.repositorioPaciente.save(persisPaciente);
+		return customMapper.pacienteToDTO(persisPaciente, 0);
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		verificarUsuarioExiste(id);
 		int citasTotales = this.repositorioPaciente.citasTotalesDelPaciente(id);
 		Paciente paciente = this.repositorioPaciente.findById(id).orElse(null);
-		return customMapper.EntityToMap(paciente, citasTotales);
+		return customMapper.pacienteToDTO(paciente, citasTotales);
 	}
 
 	@Override
@@ -64,20 +67,22 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 		validarCitas(id);
 		return convertirDeEntityaDTO(id);
 	}
-	
+
 	@Override
-	public void modificarPaciente(Paciente paciente, String id) {
-		verificarUsuarioExiste(id);
-		Paciente pacienteBd = buscarPacientePorIdentificacion(id);
+	public void modificarPaciente(PacienteDTO paciente, String id) {
+		validarCampos.validarPacienteModificado(paciente);
+		Paciente pacienteBd = verificarUsuarioExiste(id);
+
 		pacienteBd.setTelefono(paciente.getTelefono());
+
 		this.repositorioPaciente.save(pacienteBd);
 	}
-	
+
 	@Override
 	public void eliminarPaciente(String id) {
 		verificarUsuarioExiste(id);
 		this.repositorioPaciente.deleteById(id);
-		
+
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------//
@@ -90,18 +95,17 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 	}
 
 	private Paciente buscarPacientePorIdentificacion(String identificacionPaciente) {
-		Paciente paciente = this.repositorioPaciente.findById(identificacionPaciente).orElse(null);
-		return paciente;
+		return this.repositorioPaciente.findById(identificacionPaciente).orElse(null);
 	}
 
 	private List<CitasPacientesDTO> convertirDeEntityaDTO(String id) {
 		List<CitasPacientesDTO> citasDTO = new ArrayList<>();
-		
+
 		List<Cita> citas = this.repositorioCitas.todasLasCitas(id);
 
 		citas.stream().forEach(cita -> {
 			CitasPacientesDTO citaDto = new CitasPacientesDTO();
-			citaDto = this.customMapper.EntitToDTO(cita,cita.getDoctor().getNombreCompleto());
+			citaDto = this.customMapper.citasPacientesToDTO(cita, cita.getDoctor().getNombreCompleto());
 			citasDTO.add(citaDto);
 		});
 
@@ -109,11 +113,12 @@ public class ServicioPacienteimlp implements ServicioPaciente {
 
 	}
 
-	private void verificarUsuarioExiste(String id) {
+	private Paciente verificarUsuarioExiste(String id) {
 		Paciente paciente = buscarPacientePorIdentificacion(id);
 		if (paciente == null) {
 			throw new ExcepcionNotFound(NOT_FOUND);
 		}
+		return paciente;
 	}
 
 	private void validarCitas(String id) {

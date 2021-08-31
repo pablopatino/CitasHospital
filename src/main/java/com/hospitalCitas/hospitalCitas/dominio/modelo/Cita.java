@@ -1,5 +1,7 @@
 package com.hospitalCitas.hospitalCitas.dominio.modelo;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,17 +13,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "citas")
-public class Cita {
+public class Cita implements Serializable {
 
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String identificacionCita;
+	private Long identificacionCita;
 	private String motivoCita;
 	private String observaciones;
 	private String fechaCita;
-//	private String identificacionUsuario;
-//	private String nombreDelDoctor;
+
 	
 	
 	@OneToOne(fetch = FetchType.LAZY)
@@ -33,26 +35,23 @@ public class Cita {
 	public Cita() {
 
 	}
-
-	//String identificacionUsuario, String nombreDelDoctor,
-	public Cita(String identificacionCita, String motivoCita, String observaciones, String fechaCita,
+	public Cita(Long identificacionCita, String motivoCita, String observaciones, String fechaCita,
 			 Paciente pacientes, Doctores doctor) {
 
 		this.identificacionCita = identificacionCita;
 		this.motivoCita = motivoCita;
 		this.observaciones = observaciones;
 		this.fechaCita = fechaCita;
-//		this.identificacionUsuario = identificacionUsuario;
-//		this.nombreDelDoctor = nombreDelDoctor;
+
 		this.pacientes = pacientes;
 		this.doctor = doctor;
 	}
 
-	public String getIdentificacionCita() {
+	public Long getIdentificacionCita() {
 		return identificacionCita;
 	}
 
-	public void setIdentificacionCita(String identificacionCita) {
+	public void setIdentificacionCita(Long identificacionCita) {
 		this.identificacionCita = identificacionCita;
 	}
 
@@ -96,20 +95,6 @@ public class Cita {
 		this.doctor = doctor;
 	}
 
-//	public String getIdentificacionUsuario() {
-//		return identificacionUsuario;
-//	}
-//
-//	public void setIdentificacionUsuario(String identificacionUsuario) {
-//		this.identificacionUsuario = identificacionUsuario;
-//	}
-//
-//	public String getNombreDelDoctor() {
-//		return nombreDelDoctor;
-//	}
-//
-//	public void setNombreDelDoctor(String nombreDelDoctor) {
-//		this.nombreDelDoctor = nombreDelDoctor;
-//	}
-
+	private static final long serialVersionUID = 1L;
+	
 }

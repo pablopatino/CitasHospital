@@ -2,6 +2,7 @@ package com.hospitalCitas.hospitalCitas.dominio.dto;
 
 public class DoctorDTO {
 
+	private String idDoctor;
 	private String nombreCompleto;
 	private int especialidad;
 	private boolean activo;
@@ -29,6 +30,14 @@ public class DoctorDTO {
 
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	public String getIdDoctor() {
+		return idDoctor;
+	}
+
+	public void setIdDoctor(String idDoctor) {
+		this.idDoctor = idDoctor;
 	}
 	
 	

@@ -9,14 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "doctores")
-public class Doctores {
+public class Doctores implements Serializable {
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,7 +32,7 @@ public class Doctores {
 		this.citas = new ArrayList<>();
 	}
 
-	public Doctores(String idDoctor, String nombreCompleto, int especialidad, List<Cita> citas, boolean activo) {
+	public Doctores(String idDoctor, String nombreCompleto, int especialidad, boolean activo) {
 				
 		this.idDoctor = idDoctor;
 		this.nombreCompleto = nombreCompleto;
@@ -88,5 +89,5 @@ public class Doctores {
 		this.id = id;
 	}
 	
-
+	private static final long serialVersionUID = 1L;
 }

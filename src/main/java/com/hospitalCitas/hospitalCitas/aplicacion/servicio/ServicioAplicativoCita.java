@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hospitalCitas.hospitalCitas.dominio.dto.CitaCompletaDTO;
-import com.hospitalCitas.hospitalCitas.dominio.modelo.Cita;
+import com.hospitalCitas.hospitalCitas.dominio.dto.CitaDTO;
 import com.hospitalCitas.hospitalCitas.dominio.servicio.ServicioCitas;
 
 @Component
@@ -18,7 +18,7 @@ public class ServicioAplicativoCita {
 	}
 	
 	
-	public CitaCompletaDTO guardarCita(Cita cita, String nombre) {
+	public CitaCompletaDTO guardarCita(CitaDTO cita, String nombre) {
 		return this.servicioCitas.guardarCita(cita, nombre);
 	}
 	
