@@ -34,7 +34,12 @@ public class CustomMapper {
 	}
 
 	public CitaCompletaDTO citaCompletaToDTO(Paciente paciente, Cita cita, Doctores doctores) {
-		CitaCompletaDTO citaCompletaDTO = modelMapper().map(cita, CitaCompletaDTO.class);		
+		CitaCompletaDTO citaCompletaDTO = modelMapper().map(cita, CitaCompletaDTO.class);
+			citaCompletaDTO.setNombreDelDoctor(doctores.getNombreCompleto());
+			citaCompletaDTO.setEspecialidadDelDoctor(doctores.getEspecialidad());
+			citaCompletaDTO.setIdentificacionPaciente(paciente.getIdentificacionPaciente());
+			citaCompletaDTO.setNombreDelPaciente(paciente.getNombrePaciente());
+			citaCompletaDTO.setTelefono(paciente.getTelefono());
 		return citaCompletaDTO;
 	}
 	

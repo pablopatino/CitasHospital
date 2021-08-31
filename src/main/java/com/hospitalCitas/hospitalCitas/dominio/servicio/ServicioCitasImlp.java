@@ -72,11 +72,8 @@ public class ServicioCitasImlp implements ServicioCitas {
 	
 	@Override
 	public void eliminarCita(Long idCita) {
-		
 		validarCita(idCita);
 		this.repositorioCitas.deleteById(idCita);
-		
-		
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------//
