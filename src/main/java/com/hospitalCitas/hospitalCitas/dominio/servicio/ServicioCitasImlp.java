@@ -30,6 +30,7 @@ public class ServicioCitasImlp implements ServicioCitas {
 	private static final String FECHA_INCORRECTA = "Fecha incorrecta";
 	private static final String FECHA_YA_UTILIZADA = "FECHA_YA_UTILIZADA";
 	private static final String PACIENTE_NO_ENCONTRADO = "Paciente no encontrado";
+	private static final String NOT_FOUND = "Not found";
 
 	private final RepositorioCitas repositorioCitas;
 	private final RepositorioDoctores repositorioDoctores;
@@ -52,12 +53,11 @@ public class ServicioCitasImlp implements ServicioCitas {
 	public CitaCompletaDTO guardarCita(CitaDTO cita, String idPaciente) {
 
 		validarCampos.validarCita(cita);
-		validarIdPaciente(idPaciente);
 		verificarFecha(cita.getFechaCita());
 		verificarFechaNoRepetida(cita.getFechaCita());
 
 		Doctores docs = validarEstadoDelDoctor();
-		Paciente paciente = this.repositorioPaciente.buscarPacientePorIdentificacion(idPaciente);
+		Paciente paciente = validarIdPaciente(idPaciente);
 
 		Cita persisCita = new Cita(null, cita.getMotivoCita(), cita.getObservaciones(), cita.getFechaCita(), paciente,
 				docs);
@@ -68,6 +68,15 @@ public class ServicioCitasImlp implements ServicioCitas {
 		this.repositorioCitas.save(persisCita);
 
 		return customMapper.citaCompletaToDTO(paciente, persisCita, docs);
+	}
+	
+	@Override
+	public void eliminarCita(Long idCita) {
+		
+		validarCita(idCita);
+		this.repositorioCitas.deleteById(idCita);
+		
+		
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------//
@@ -102,12 +111,21 @@ public class ServicioCitasImlp implements ServicioCitas {
 			throw new ExcepcionRepetido(FECHA_YA_UTILIZADA);
 		}
 	}
-	
-	private void validarIdPaciente(String id) {
+
+	private Paciente validarIdPaciente(String id) {
 		Paciente paciente = this.repositorioPaciente.buscarPacientePorIdentificacion(id);
-		if (paciente != null) {
+		if (paciente == null) {
 			throw new ExcepcionNotFound(PACIENTE_NO_ENCONTRADO);
 		}
+		return paciente;
+	}
+	
+	private Cita validarCita(Long id) {
+		Cita cita = this.repositorioCitas.findById(id).orElse(null);
+		if (id == null) {
+			throw new ExcepcionNotFound(NOT_FOUND);
+		}
+		return cita;
 	}
 
 }

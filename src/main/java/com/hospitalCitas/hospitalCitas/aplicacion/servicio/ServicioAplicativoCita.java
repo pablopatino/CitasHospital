@@ -22,5 +22,9 @@ public class ServicioAplicativoCita {
 		return this.servicioCitas.guardarCita(cita, nombre);
 	}
 	
+	public  void eliminarCita(Long idCita) {
+		this.servicioCitas.eliminarCita(idCita);
+	}
+	
 	
 }
