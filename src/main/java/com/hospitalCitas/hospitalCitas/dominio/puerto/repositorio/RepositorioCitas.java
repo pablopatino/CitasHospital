@@ -15,4 +15,6 @@ public interface RepositorioCitas extends CrudRepository<Cita, Long> {
 	@Query( value = "SELECT * FROM CITAS WHERE DOCTOR_ID = :idDoctor", nativeQuery = true)
 	public List<Cita> todasLasCitasDelDoctor(Long idDoctor);
 
+	@Query(value = "SELECT * FROM CITAS WHERE FECHA_CITA = :fechaCita", nativeQuery = true)
+	public Cita verificarFechaCita(String fechaCita);
 }

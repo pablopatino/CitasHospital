@@ -26,5 +26,7 @@ public class ControladorCitas {
 	public CitaCompletaDTO guardarCita(@RequestBody CitaDTO cita, @PathVariable String idPaciente) {
 		return this.servicioAplicativoCita.guardarCita(cita, idPaciente);
 	}
+	
+	
 
 }
